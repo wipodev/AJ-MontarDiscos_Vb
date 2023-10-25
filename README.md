@@ -2,35 +2,40 @@
     <img src="https://github.com/wipodev/wipodev/blob/main/assets/logo-main.svg" width="300" title="AJ-Wi">
 </p>
 
-# Montar Discos
+# USB Drive Monitor
 
-aplicacion para simular en Windows el efecto de Linux o MAC OSX de que aparezca la unidad conectada por usb en el escritorio
-
-Soy una persona nueva trabajando con linux, aunque en mi vida e toqueteado este SO de vez en cuando, sin embargo una cosa que
-más me gustan de lo poco que he usado Linux y que además e visto en videos en SO Mac OSX a lo largo de mi vida es que cuando
-montas una unidad, ya sea extraíble o de cd/dvd, nos pone automáticamente un icono para acceder a él en el escritorio.
-
-En Windows es totalmente diferente, de hecho la única forma de acceder a estos es a través de Mi PC o el explorador de archivos.
-En algún momento pensé que se podría simplemente creando un acceso directo a dicha unidad, lamentablemente fue inviable porque
-cuando se desconecta la unidad sigue el acceso directo de la unidad en el escritorio y es posible que conectemos diferentes
-tipos (pendrive, reproductor multimedia, etc) a lo largo del día y muy probablemente se le asigne el mismo icono y acceso
-directo que ya tenemos en el escritorio.
-
-Por las razones expuestas anteriormente decidí buscar una alternativa o quizás una opción oculta que tuviera el windows
-que yo no supiera, cuando agote mis esfuerzos de búsqueda de esta opción, oculta tome la decisión de crear una aplicación que
-lo emulara. Esta aplicación comencé a crearla en 2016, la utilice por un tiempo, con algunas fallas, pero lamentablemente
-deje su desarrollo en el olvido
+aplicación para simular en Windows el efecto de Linux o MAC OSX de que aparezca la unidad conectada por usb en el escritorio
 
 Ejecutada se encuentra en constante revisión de unidades conectadas o desconectadas, en lo que a unidades se refiere,
 y si detecta una unidad conectada nos crea un acceso directo a dicha unidad en el escritorio, de lo contrario elimina el
 acceso directo, de hecho si eliminamos el acceso directo del escritorio o lo arrastramos a la papelera la aplicación
 expulsa la unidad del PC
 
-## Requisitos
+## Uso
 
-- **.net Framework v2.0**
-- **Visual Studio 14**
+Para usar `USB Drive Monitor`, sigue estos pasos:
+
+1. Clona o descarga el repositorio a tu sistema.
+2. Asegúrate de tener Python instalado en tu sistema.
+3. Ejecuta `USB Drive Monitor` en tu sistema.
+4. El módulo monitoreará continuamente la conexión y desconexión de unidades USB y realizará las siguientes acciones:
+
+   - **Al conectarse una unidad USB:** Creará un acceso directo en el escritorio para la unidad recién conectada.
+   - **Al Desconectarse una unidad USB:** Eliminará el acceso directo correspondiente del escritorio.
+   - **Al arrastrar acceso directo a la papelera:** Desconecta de forma segura la unidad USB.
+   - **Al eliminar acceso directo:** Desconecta de forma segura la unidad USB.
+
+## Características
+
+- Detección automática de unidades USB conectadas.
+- Creación automática de accesos directos en el escritorio para unidades USB.
+- Gestión de accesos directos en el escritorio.
+- Facilita la expulsión segura de dispositivos USB al eliminar su acceso directo.
 
 ## Licencia
 
-MontarDiscos tiene [licencia MIT](https://github.com/AJ-Wi/MontarDiscos/blob/master/LICENSE)
+Este proyecto está bajo la licencia MIT. Para más detalles, consulta el archivo [LICENSE](https://github.com/wipodev/USB_Drive_Monitor/blob/master/LICENSE).
+
+## Repositorio
+
+Puedes encontrar el código fuente y más detalles en el repositorio de GitHub: [wipodev/USB_Drive_Monitor](https://github.com/wipodev/USB_Drive_Monitor).
