@@ -1,7 +1,36 @@
 import os
 import time
+import socket
+import win32serviceutil
+import win32service
+import win32event
+import sys
 from win10toast import ToastNotifier
 
+class USBDriveMonitorService(win32serviceutil.ServiceFramework):
+    _svc_name_ = "USBDriveMonitorService"
+    _svc_display_name_ = "USB Drive Monitor Service"
+
+    def __init__(self, args):
+        win32serviceutil.ServiceFramework.__init__(self, args)
+        self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)
+        socket.setdefaulttimeout(60)
+        self.is_alive = True
+
+    def SvcStop(self):
+        self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+        win32event.SetEvent(self.hWaitStop)
+        self.is_alive = False
+
+    def SvcDoRun(self):
+        servicemanager.LogMsg(servicemanager.EVENTLOG_INFORMATION_TYPE,
+            servicemanager.PYS_SERVICE_STARTED,
+            (self._svc_name_, ''))
+        self.main()
+
+    def main(self):
+        while self.is_alive:
+            detect_usb_drive()
 
 def detect_usb_drive():
     drives = [chr(drive) for drive in range(68, 91)
@@ -31,30 +60,29 @@ def detect_usb_drive():
 
         drives = new_drives
 
-
 def create_shortcut_on_desktop(drive: str) -> None:
     os.system(
         f'powershell $WshShell = New-Object -ComObject WScript.Shell;$Shortcut = $WshShell.CreateShortcut("""{shortcut(drive)}""");$Shortcut.TargetPath = """{drive}:""";$Shortcut.Save()')
-
 
 def remove_shortcut_from_desktop(drive: str) -> None:
     if os.path.exists(shortcut(drive)):
         os.remove(shortcut(drive))
 
-
 def eject_usb_drive(drive: str) -> None:
     if os.path.exists(f"{drive}:"):
         os.system(
             f'powershell $driveEject = New-Object -comObject Shell.Application; $driveEject.Namespace(17).ParseName("""{drive}:""").InvokeVerb("""Eject""")')
-        # agregar un mensaje de que ya puede retirar el usb
         print("Ya puede retirar el USB")
         toaster = ToastNotifier()
         toaster.show_toast("USB Drive Monitor", f"Ya puede retirar la unidad USB ({drive})", duration=5)
 
-
 def shortcut(drive: str) -> str:
     return f"{os.environ['USERPROFILE']}\\Desktop\\Disco local USB ({drive}).lnk"
 
-
-if __name__ == "__main__":
-    detect_usb_drive()
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        servicemanager.Initialize()
+        servicemanager.PrepareToHostSingle(USBDriveMonitorService)
+        servicemanager.StartServiceCtrlDispatcher()
+    else:
+        win32serviceutil.HandleCommandLine(USBDriveMonitorService)

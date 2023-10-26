@@ -2,3 +2,4 @@
 **/Debug/*
 env
 .vscode
+__pycache__
